@@ -6,7 +6,6 @@ import {
   darken,
   Stack,
   styled,
-  Typography,
   useTheme,
 } from "@mui/material";
 import type { NextPage } from "next";
@@ -214,7 +213,10 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (win) {
-      confetti();
+      confetti({
+        particleCount: 150,
+        spread: 180,
+      });
     }
   }, [win]);
 
