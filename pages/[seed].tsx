@@ -4,9 +4,13 @@ import {
   ButtonBase,
   Container,
   darken,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
   Stack,
   styled,
-  useTheme,
+  Typography,
 } from "@mui/material";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -15,6 +19,7 @@ import seedRandom from "seed-random";
 import confetti from "canvas-confetti";
 import { NextLinkComposed } from "../src/Link";
 import clsx from "clsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface BingoTile {
   value: string;
@@ -191,7 +196,7 @@ const Home: NextPage = () => {
   const state = parseState(rawState);
   const win = isBingo(state);
   const seed = router.query.seed as string;
-  const theme = useTheme();
+  const [instructionsOpen, setInstructionsOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (router.isReady) {
@@ -225,6 +230,13 @@ const Home: NextPage = () => {
       <Box>
         <Stack my={3} direction="row-reverse" spacing={2}>
           <Button
+            onClick={() => setInstructionsOpen(true)}
+            color="inherit"
+            variant="outlined"
+          >
+            ?
+          </Button>
+          <Button
             component={NextLinkComposed}
             to={router.asPath.split("?")[0]}
             color="inherit"
@@ -256,6 +268,39 @@ const Home: NextPage = () => {
           </BingoBoard>
         ) : null}
       </Box>
+      <Dialog
+        fullWidth
+        onClose={() => setInstructionsOpen(false)}
+        open={instructionsOpen}
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }}>
+          Instructies
+          <IconButton
+            aria-label="close"
+            onClick={() => setInstructionsOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography>
+            Speel tijdens het beluisteren van de podcast. De regels zijn
+            eenvoudig:
+          </Typography>
+
+          <Typography>
+            Wanneer een van de items op de bingokaart aan bod komt, vink je het
+            vakje af en drink je. Wie het eerst 3 vakjes naast elkaar afvinkt,
+            wint!
+          </Typography>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 };
