@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  CircularProgress,
   Container,
   darken,
   Dialog,
@@ -204,18 +205,24 @@ function countBingo(state: State): number {
   );
 }
 
+const EMPTY_BOARD: BingoTile[] = new Array(16).fill({ value: "" });
+
 const Home: NextPage = () => {
   const router = useRouter();
-  const [board, setBoard] = React.useState<BingoTile[] | null>(null);
+  const [board, setBoard] = React.useState<BingoTile[]>(EMPTY_BOARD);
   const { state: rawState } = router.query;
   const state = parseState(rawState);
   const bingos = countBingo(state);
-  const seed = router.query.seed as string;
+  const seed: undefined | string = asArray(router.query.seed)[0];
   const [instructionsOpen, setInstructionsOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (router.isReady) {
-      setBoard(shuffle(BINGO_TILES, seed).slice(0, 16));
+      if (seed) {
+        setBoard(shuffle(BINGO_TILES, seed).slice(0, 16));
+      } else {
+        router.replace(getRandomBoardUrl());
+      }
     }
   }, [router.isReady, seed]);
 
@@ -273,24 +280,20 @@ const Home: NextPage = () => {
             ?
           </Button>
         </Stack>
-
         <Typography textAlign="center">
           {bingos > 0 ? "🎉 BINGO! 🎉" : <>&nbsp;</>}
         </Typography>
-        {board ? (
-          <BingoBoard>
-            {board.map((tile, i) => (
-              <BingoTile
-                onClick={handleClick(i)}
-                className={clsx({ active: state[i] })}
-                key={i}
-              >
-                {tile.value}
-                <div className="circle" />
-              </BingoTile>
-            ))}
-          </BingoBoard>
-        ) : null}
+        <BingoBoard>
+          {board.map((tile, i) => (
+            <BingoTile
+              onClick={handleClick(i)}
+              className={clsx({ active: state[i] })}
+              key={i}
+            >
+              {tile.value}
+            </BingoTile>
+          ))}
+        </BingoBoard>
         <Stack direction="row-reverse">
           <IconButton
             aria-label="close"
