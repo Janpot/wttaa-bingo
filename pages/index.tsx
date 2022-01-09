@@ -1,11 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
 import * as React from "react";
+import { getRandomBoardUrl } from "../src/bingo";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
       permanent: false,
-      destination: `/${String(Math.random()).slice(2, 10)}`,
+      destination: getRandomBoardUrl(),
     },
   };
 };

@@ -20,6 +20,7 @@ import confetti from "canvas-confetti";
 import { NextLinkComposed } from "../src/Link";
 import clsx from "clsx";
 import CloseIcon from "@mui/icons-material/Close";
+import { getRandomBoardUrl } from "../src/bingo";
 
 interface BingoTile {
   value: string;
@@ -30,16 +31,16 @@ const BINGO_TILES: BingoTile[] = [
     value: "Wa ne schone vent is ...",
   },
   {
-    value: "Mijne papa was nen Engelsman",
+    value: "Mijn papa was nen Engelsman",
   },
   {
-    value: "Stopwoord: ..., of zo.",
+    value: "..., of zo.",
   },
   {
     value: "Andries heeft een docu gezien",
   },
   {
-    value: 'Alex wint "het Leids"',
+    value: '"het Leids" gewonnen',
   },
   {
     value: "Iemand moet naar de WC onder de trap",
@@ -48,10 +49,10 @@ const BINGO_TILES: BingoTile[] = [
     value: "Alex is geirriteerd door woke",
   },
   {
-    value: "Alex imiteert Gunther Lamoot",
+    value: "Gunther Lamoot imitatie",
   },
   {
-    value: "Alex imiteert Bill Burr",
+    value: "Bill Burr imitatie",
   },
   {
     value: "Sportpaleis uitverkocht",
@@ -66,10 +67,13 @@ const BINGO_TILES: BingoTile[] = [
     value: "Alex en Andries krijgen een geschenk",
   },
   {
-    value: "Ik heb gevechtsport gedaan",
+    value: "Ik heb nog karate gedaan",
   },
   {
     value: "Als ge van slechte wil zijt",
+  },
+  {
+    value: "Moeder is grootste fan",
   },
   {
     value: "Bazart",
@@ -178,14 +182,24 @@ function getTile(state: State, r: number, c: number): boolean {
 }
 
 function isBingo(state: State): boolean {
+  return countBingo(state) > 0;
+}
+
+function countBingo(state: State): number {
+  const bingoRows = [0, 1, 2, 3].filter((i) =>
+    [0, 1, 2, 3].every((j) => getTile(state, i, j))
+  );
+  const bingoColumns = [0, 1, 2, 3].filter((i) =>
+    [0, 1, 2, 3].every((j) => getTile(state, j, i))
+  );
+  const bingoDiagonal1 = [0, 1, 2, 3].every((i) => getTile(state, i, i))
+    ? 1
+    : 0;
+  const bingoDiagonal2 = [0, 1, 2, 3].every((i) => getTile(state, 3 - i, i))
+    ? 1
+    : 0;
   return (
-    [0, 1, 2, 3].some(
-      (i) =>
-        [0, 1, 2, 3].every((j) => getTile(state, i, j)) ||
-        [0, 1, 2, 3].every((j) => getTile(state, j, i))
-    ) ||
-    [0, 1, 2, 3].every((i) => getTile(state, i, i)) ||
-    [0, 1, 2, 3].every((i) => getTile(state, 3 - i, i))
+    bingoRows.length + bingoColumns.length + bingoDiagonal1 + bingoDiagonal2
   );
 }
 
@@ -194,7 +208,8 @@ const Home: NextPage = () => {
   const [board, setBoard] = React.useState<BingoTile[] | null>(null);
   const { state: rawState } = router.query;
   const state = parseState(rawState);
-  const win = isBingo(state);
+  // const win = isBingo(state);
+  const bingos = countBingo(state);
   const seed = router.query.seed as string;
   const [instructionsOpen, setInstructionsOpen] = React.useState(false);
 
@@ -207,23 +222,33 @@ const Home: NextPage = () => {
   const handleClick = (i: number) => () => {
     const state = parseState(router.query.state);
     const newState = toggleState(state, i);
-    router.replace({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        state: serializeState(newState),
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          state: serializeState(newState),
+        },
       },
-    });
+      undefined,
+      { scroll: false }
+    );
   };
 
+  const prevBingos = React.useRef(bingos);
   React.useEffect(() => {
-    if (win) {
+    if (bingos - prevBingos.current > 0) {
       confetti({
         particleCount: 150,
         spread: 180,
       });
     }
-  }, [win]);
+    prevBingos.current = bingos;
+  }, [bingos]);
+
+  const handleNewBoard = React.useCallback(() => {
+    router.push(getRandomBoardUrl());
+  }, [router]);
 
   return (
     <Container maxWidth="sm">
@@ -244,14 +269,11 @@ const Home: NextPage = () => {
           >
             Reset
           </Button>
-          <Button
-            component={NextLinkComposed}
-            to="/"
-            color="inherit"
-            variant="outlined"
-          >
+          <Button onClick={handleNewBoard} color="inherit" variant="outlined">
             Nieuwe kaart
           </Button>
+          <div style={{ flex: 1 }} />
+          {bingos > 0 ? <Typography>BINGO!</Typography> : null}
         </Stack>
         {board ? (
           <BingoBoard>
@@ -291,13 +313,9 @@ const Home: NextPage = () => {
         <DialogContent>
           <Typography>
             Speel tijdens het beluisteren van de podcast. De regels zijn
-            eenvoudig:
-          </Typography>
-
-          <Typography>
-            Wanneer een van de items op de bingokaart aan bod komt, vink je het
-            vakje af en drink je. Wie het eerst 3 vakjes naast elkaar afvinkt,
-            wint!
+            eenvoudig: Wanneer een van de items op de bingokaart aan bod komt,
+            vink je het vakje af en drink je. Wie het eerst 4 vakjes naast
+            elkaar afvinkt, wint!
           </Typography>
         </DialogContent>
       </Dialog>
