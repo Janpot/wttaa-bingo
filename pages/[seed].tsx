@@ -78,6 +78,9 @@ const BINGO_TILES: BingoTile[] = [
   {
     value: "Bazart",
   },
+  {
+    value: "Da's kei schattig",
+  },
 ];
 
 // https://stackoverflow.com/a/2450976/419436
@@ -253,42 +256,45 @@ const Home: NextPage = () => {
   return (
     <Container maxWidth="sm">
       <Box>
-        <Stack my={3} direction="row-reverse" spacing={2}>
-          <Button
-            onClick={() => setInstructionsOpen(true)}
-            color="inherit"
-            variant="outlined"
-          >
-            ?
-          </Button>
-          <Button
-            component={NextLinkComposed}
-            to={router.asPath.split("?")[0]}
-            color="inherit"
-            variant="outlined"
-          >
-            Reset
-          </Button>
-          <Button onClick={handleNewBoard} color="inherit" variant="outlined">
-            Nieuwe kaart
-          </Button>
-          <div style={{ flex: 1 }} />
-          {bingos > 0 ? <Typography>BINGO!</Typography> : null}
+        <Stack alignItems="center" spacing={3}>
+          <Stack my={3} direction="row-reverse" spacing={2}>
+            <Button
+              onClick={() => setInstructionsOpen(true)}
+              color="inherit"
+              variant="outlined"
+            >
+              ?
+            </Button>
+            <Button
+              component={NextLinkComposed}
+              to={router.asPath.split("?")[0]}
+              color="inherit"
+              variant="outlined"
+            >
+              Reset
+            </Button>
+            <Button onClick={handleNewBoard} color="inherit" variant="outlined">
+              Nieuwe kaart
+            </Button>
+            <div style={{ flex: 1 }} />
+          </Stack>
+
+          <Typography>{bingos > 0 ? "BINGO!" : <>&nbsp;</>}</Typography>
+          {board ? (
+            <BingoBoard>
+              {board.map((tile, i) => (
+                <BingoTile
+                  onClick={handleClick(i)}
+                  className={clsx({ active: state[i] })}
+                  key={i}
+                >
+                  {tile.value}
+                  <div className="circle" />
+                </BingoTile>
+              ))}
+            </BingoBoard>
+          ) : null}
         </Stack>
-        {board ? (
-          <BingoBoard>
-            {board.map((tile, i) => (
-              <BingoTile
-                onClick={handleClick(i)}
-                className={clsx({ active: state[i] })}
-                key={i}
-              >
-                {tile.value}
-                <div className="circle" />
-              </BingoTile>
-            ))}
-          </BingoBoard>
-        ) : null}
       </Box>
       <Dialog
         fullWidth
