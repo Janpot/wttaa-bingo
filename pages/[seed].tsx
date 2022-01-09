@@ -20,6 +20,7 @@ import confetti from "canvas-confetti";
 import { NextLinkComposed } from "../src/Link";
 import clsx from "clsx";
 import CloseIcon from "@mui/icons-material/Close";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import { getRandomBoardUrl } from "../src/bingo";
 
 interface BingoTile {
@@ -29,9 +30,6 @@ interface BingoTile {
 const BINGO_TILES: BingoTile[] = [
   {
     value: "Wa ne schone vent is ...",
-  },
-  {
-    value: "Mijn papa was nen Engelsman",
   },
   {
     value: "..., of zo.",
@@ -46,7 +44,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "Iemand moet naar de WC onder de trap",
   },
   {
-    value: "Alex is geirriteerd door woke",
+    value: "Alex is geïrriteerd door woke",
   },
   {
     value: "Gunther Lamoot imitatie",
@@ -211,7 +209,6 @@ const Home: NextPage = () => {
   const [board, setBoard] = React.useState<BingoTile[] | null>(null);
   const { state: rawState } = router.query;
   const state = parseState(rawState);
-  // const win = isBingo(state);
   const bingos = countBingo(state);
   const seed = router.query.seed as string;
   const [instructionsOpen, setInstructionsOpen] = React.useState(false);
@@ -255,47 +252,57 @@ const Home: NextPage = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box>
-        <Stack alignItems="center" spacing={3}>
-          <Stack my={3} direction="row-reverse" spacing={2}>
-            <Button
-              onClick={() => setInstructionsOpen(true)}
-              color="inherit"
-              variant="outlined"
-            >
-              ?
-            </Button>
-            <Button
-              component={NextLinkComposed}
-              to={router.asPath.split("?")[0]}
-              color="inherit"
-              variant="outlined"
-            >
-              Reset
-            </Button>
-            <Button onClick={handleNewBoard} color="inherit" variant="outlined">
-              Nieuwe kaart
-            </Button>
-            <div style={{ flex: 1 }} />
-          </Stack>
-
-          <Typography>{bingos > 0 ? "BINGO!" : <>&nbsp;</>}</Typography>
-          {board ? (
-            <BingoBoard>
-              {board.map((tile, i) => (
-                <BingoTile
-                  onClick={handleClick(i)}
-                  className={clsx({ active: state[i] })}
-                  key={i}
-                >
-                  {tile.value}
-                  <div className="circle" />
-                </BingoTile>
-              ))}
-            </BingoBoard>
-          ) : null}
+      <Stack spacing={3} alignItems="stretch" my={2}>
+        <Stack my={3} direction="row" spacing={2} justifyContent="center">
+          <Button onClick={handleNewBoard} color="inherit" variant="outlined">
+            Nieuwe kaart
+          </Button>
+          <Button
+            component={NextLinkComposed}
+            to={router.asPath.split("?")[0]}
+            color="inherit"
+            variant="outlined"
+          >
+            Reset
+          </Button>
+          <Button
+            onClick={() => setInstructionsOpen(true)}
+            color="inherit"
+            variant="outlined"
+          >
+            ?
+          </Button>
         </Stack>
-      </Box>
+
+        <Typography textAlign="center">
+          {bingos > 0 ? "🎉 BINGO! 🎉" : <>&nbsp;</>}
+        </Typography>
+        {board ? (
+          <BingoBoard>
+            {board.map((tile, i) => (
+              <BingoTile
+                onClick={handleClick(i)}
+                className={clsx({ active: state[i] })}
+                key={i}
+              >
+                {tile.value}
+                <div className="circle" />
+              </BingoTile>
+            ))}
+          </BingoBoard>
+        ) : null}
+        <Stack direction="row-reverse">
+          <IconButton
+            aria-label="close"
+            component={NextLinkComposed}
+            to="https://github.com/Janpot/wttaa-bingo"
+            color="inherit"
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Stack>
+      </Stack>
+
       <Dialog
         fullWidth
         onClose={() => setInstructionsOpen(false)}
@@ -320,8 +327,8 @@ const Home: NextPage = () => {
           <Typography>
             Speel tijdens het beluisteren van de podcast. De regels zijn
             eenvoudig: Wanneer een van de items op de bingokaart aan bod komt,
-            vink je het vakje af en drink je. Wie het eerst 4 vakjes naast
-            elkaar afvinkt, wint!
+            vink je het vakje af. Wie het eerst 4 vakjes naast elkaar afvinkt,
+            wint!
           </Typography>
         </DialogContent>
       </Dialog>
