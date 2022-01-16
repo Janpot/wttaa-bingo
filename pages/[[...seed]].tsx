@@ -23,26 +23,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { getRandomBoardUrl } from "../src/bingo";
 
-function Logo() {
-  return (
-    <div
-      style={{
-        padding: "20px 0",
-        transform: "rotate(-17deg)",
-        fontFamily: "Yellowtail, sans-serif",
-        color: "#fff",
-        fontSize: 20,
-        fontWeight: 400,
-        textAlign: "center",
-      }}
-    >
-      Welcome to the AA!
-      <br />
-      bingo
-    </div>
-  );
-}
-
 interface BingoTile {
   value: string;
 }
@@ -121,6 +101,26 @@ const BINGO_TILES: BingoTile[] = [
     value: "Bij Vlaamse Opera gewerkt",
   },
 ];
+
+function Logo() {
+  return (
+    <div
+      style={{
+        padding: "20px 0",
+        transform: "rotate(-17deg)",
+        fontFamily: "Yellowtail, sans-serif",
+        color: "#fff",
+        fontSize: 20,
+        fontWeight: 400,
+        textAlign: "center",
+      }}
+    >
+      Welcome to the AA!
+      <br />
+      bingo
+    </div>
+  );
+}
 
 // https://stackoverflow.com/a/2450976/419436
 function shuffle<T>(array: readonly T[], seed: string): T[] {
@@ -296,7 +296,14 @@ const Home: NextPage = () => {
   return (
     <Container maxWidth="sm">
       <Stack spacing={2} alignItems="stretch" my={2}>
-        <Logo />
+        <a
+          href="https://alexagnew.be/wttaa/"
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <Logo />
+        </a>
         <Stack my={3} direction="row" spacing={2} justifyContent="center">
           <Button onClick={handleNewBoard} color="inherit" variant="outlined">
             Nieuwe kaart
