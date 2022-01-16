@@ -70,7 +70,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "Ik heb nog karate gedaan",
   },
   {
-    value: "Als ge van slechte wil zijt",
+    value: '"Als ge van slechte wil zijt"',
   },
   {
     value: "Moeder is grootste fan",
@@ -94,7 +94,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "Fokke van der Meulen",
   },
   {
-    value: "Een gigantisch pak rammel",
+    value: '"Een gigantisch pak rammel"',
   },
   {
     value: "Bij Vlaamse Opera gewerkt",
