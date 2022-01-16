@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Link,
   Stack,
   styled,
   Typography,
@@ -31,7 +32,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "Wa ne schone vent is ...",
   },
   {
-    value: "..., of zo.",
+    value: '"..., of zo."',
   },
   {
     value: "Andries heeft een docu gezien",
@@ -347,10 +348,13 @@ const Home: NextPage = () => {
         </DialogTitle>
         <DialogContent>
           <Typography>
-            Speel tijdens het beluisteren van de podcast. De regels zijn
-            eenvoudig: Wanneer een van de items op de bingokaart aan bod komt,
-            vink je het vakje af. Wie het eerst 4 vakjes naast elkaar afvinkt,
-            wint!
+            Speel tijdens het beluisteren van{" "}
+            <Link color="inherit" href="https://alexagnew.be/wttaa/">
+              de podcast
+            </Link>
+            . De regels zijn eenvoudig: Wanneer een van de items op de
+            bingokaart aan bod komt, vink je het vakje af. Wie het eerst 4
+            vakjes naast elkaar afvinkt, wint!
           </Typography>
         </DialogContent>
       </Dialog>
