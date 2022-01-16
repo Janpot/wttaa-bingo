@@ -1,7 +1,6 @@
 {
-  "name": "nextjs-with-typescript",
-  "version": "5.0.0",
-  "private": true,
+  "name": "wttaa-bingo",
+  "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -30,5 +29,6 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
-  }
+  },
+  "license": "MIT"
 }
