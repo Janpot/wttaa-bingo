@@ -1,8 +1,6 @@
 import {
-  Box,
   Button,
   ButtonBase,
-  CircularProgress,
   Container,
   darken,
   Dialog,
@@ -39,10 +37,13 @@ const BINGO_TILES: BingoTile[] = [
     value: "Andries heeft een docu gezien",
   },
   {
-    value: '"het Leids" gewonnen',
+    value: 'Alex wint "het Leids"',
   },
   {
-    value: "Iemand moet naar de WC onder de trap",
+    value: "de WC onder de trap",
+  },
+  {
+    value: "Mijne papa is nen Engelsman",
   },
   {
     value: "Alex is geïrriteerd door woke",
@@ -60,10 +61,10 @@ const BINGO_TILES: BingoTile[] = [
     value: "Andries heeft niet opgelet",
   },
   {
-    value: "Joe Rogan Bro Science",
+    value: "Bro Science",
   },
   {
-    value: "Alex en Andries krijgen een geschenk",
+    value: "Alex en Andries krijgen drank",
   },
   {
     value: "Ik heb nog karate gedaan",
@@ -75,10 +76,28 @@ const BINGO_TILES: BingoTile[] = [
     value: "Moeder is grootste fan",
   },
   {
-    value: "Bazart",
+    value: "Bazart komt aan bod",
   },
   {
-    value: "Da's kei schattig",
+    value: '"Da\'s kei schattig"',
+  },
+  {
+    value: "Alex en Andries bromance",
+  },
+  {
+    value: "Alex houdt van Davy Gillis",
+  },
+  {
+    value: "Mekanik strip wordt vermeld",
+  },
+  {
+    value: "Fokke van der Meulen",
+  },
+  {
+    value: "Een gigantisch pak rammel",
+  },
+  {
+    value: "Bij Vlaamse Opera gewerkt",
   },
 ];
 
