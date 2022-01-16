@@ -23,6 +23,26 @@ import CloseIcon from "@mui/icons-material/Close";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { getRandomBoardUrl } from "../src/bingo";
 
+function Logo() {
+  return (
+    <div
+      style={{
+        padding: "20px 0",
+        transform: "rotate(-17deg)",
+        fontFamily: "Yellowtail, sans-serif",
+        color: "#fff",
+        fontSize: 20,
+        fontWeight: 400,
+        textAlign: "center",
+      }}
+    >
+      Welcome to the AA!
+      <br />
+      bingo
+    </div>
+  );
+}
+
 interface BingoTile {
   value: string;
 }
@@ -203,10 +223,6 @@ function getTile(state: State, r: number, c: number): boolean {
   return state[r * 4 + c];
 }
 
-function isBingo(state: State): boolean {
-  return countBingo(state) > 0;
-}
-
 function countBingo(state: State): number {
   const bingoRows = [0, 1, 2, 3].filter((i) =>
     [0, 1, 2, 3].every((j) => getTile(state, i, j))
@@ -266,8 +282,8 @@ const Home: NextPage = () => {
   React.useEffect(() => {
     if (bingos - prevBingos.current > 0) {
       confetti({
-        particleCount: 150,
-        spread: 180,
+        particleCount: 300,
+        spread: 160,
       });
     }
     prevBingos.current = bingos;
@@ -279,7 +295,8 @@ const Home: NextPage = () => {
 
   return (
     <Container maxWidth="sm">
-      <Stack spacing={3} alignItems="stretch" my={2}>
+      <Stack spacing={2} alignItems="stretch" my={2}>
+        <Logo />
         <Stack my={3} direction="row" spacing={2} justifyContent="center">
           <Button onClick={handleNewBoard} color="inherit" variant="outlined">
             Nieuwe kaart
