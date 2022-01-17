@@ -297,7 +297,7 @@ const Home: NextPage = () => {
     <Container maxWidth="sm">
       <Stack spacing={2} alignItems="stretch" my={2}>
         <a
-          href="https://alexagnew.be/wttaa/"
+          href="https://wttaa-bingo.webflow.io/"
           style={{
             textDecoration: "none",
           }}
