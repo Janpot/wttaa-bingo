@@ -29,7 +29,7 @@ interface BingoTile {
 
 const BINGO_TILES: BingoTile[] = [
   {
-    value: "Wa ne schone vent is ...",
+    value: '"Wa ne schone vent is ..."',
   },
   {
     value: '"..., of zo."',
@@ -68,7 +68,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "Alex en Andries krijgen drank",
   },
   {
-    value: "Ik heb nog karate gedaan",
+    value: '"Ik heb nog karate gedaan"',
   },
   {
     value: '"Als ge van slechte wil zijt"',
