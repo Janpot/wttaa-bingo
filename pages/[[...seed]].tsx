@@ -16,7 +16,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import * as React from "react";
 import seedRandom from "seed-random";
-import confetti from "canvas-confetti";
+import confetti from "../src/confetti";
 import { NextLinkComposed } from "../src/Link";
 import clsx from "clsx";
 import CloseIcon from "@mui/icons-material/Close";
@@ -281,10 +281,7 @@ const Home: NextPage = () => {
   const prevBingos = React.useRef(bingos);
   React.useEffect(() => {
     if (bingos - prevBingos.current > 0) {
-      confetti({
-        particleCount: 300,
-        spread: 160,
-      });
+      confetti();
     }
     prevBingos.current = bingos;
   }, [bingos]);
