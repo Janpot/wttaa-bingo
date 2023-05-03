@@ -45,7 +45,7 @@ const BINGO_TILES: BingoTile[] = [
     value: "de WC onder de trap",
   },
   {
-    value: '"Mijn vader was nen Engelsman"',
+    value: '"Mijn vader is nen Engelsman"',
   },
   {
     value: "Alex is geïrriteerd door woke",
