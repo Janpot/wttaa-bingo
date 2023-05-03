@@ -5,6 +5,7 @@ import {
   darken,
   Dialog,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   IconButton,
   Link,
@@ -250,7 +251,7 @@ const Home: NextPage = () => {
   const state = parseState(rawState);
   const bingos = countBingo(state);
   const seed: undefined | string = asArray(router.query.seed)[0];
-  const [instructionsOpen, setInstructionsOpen] = React.useState(false);
+  const [instructionsOpen, setInstructionsOpen] = React.useState(true);
 
   React.useEffect(() => {
     if (router.isReady) {
@@ -352,7 +353,7 @@ const Home: NextPage = () => {
         onClose={() => setInstructionsOpen(false)}
         open={instructionsOpen}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }}>
+        <DialogTitle>
           Instructies
           <IconButton
             aria-label="close"
@@ -368,7 +369,7 @@ const Home: NextPage = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <Typography>
+          <DialogContentText>
             Speel tijdens het beluisteren van{" "}
             <Link color="inherit" href="https://alexagnew.be/wttaa/">
               de podcast
@@ -376,7 +377,7 @@ const Home: NextPage = () => {
             . De regels zijn eenvoudig: Wanneer een van de items op de
             bingokaart aan bod komt, vink je het vakje af. Wie het eerst 4
             vakjes naast elkaar afvinkt, wint!
-          </Typography>
+          </DialogContentText>
         </DialogContent>
       </Dialog>
     </Container>
